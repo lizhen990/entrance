@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内网网站访问</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .input-container {
+            margin: 50px 0;
+        }
+        #website-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #website-input::placeholder {
+            color: #999;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <input type="text" id="website-input" placeholder="请输入您想访问的内网网站">
+        <button onclick="redirectToWebsite()">访问</button>
+    </div>
+
+    <script>
+        function redirectToWebsite() {
+            const input = document.getElementById('website-input').value.trim();
+            if (input) {
+                // 确保URL以http://或https://开头
+                let url = input;
+                if (!/^https?:\/\//i.test(input)) {
+                    url = 'http://' + input;
+                }
+                
+                // 特殊网址处理
+                const urlObj = new URL(url);
+                if (urlObj.hostname === 'www.google.com') {
+                    url = url.replace('www.google.com', 'www.baidu.com');
+                }
+                
+                window.location.href = url;
+            }
+        }
+
+        // 添加回车键支持
+        document.getElementById('website-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                redirectToWebsite();
+            }
+        });
+    </script>
+</body>
+</html>
